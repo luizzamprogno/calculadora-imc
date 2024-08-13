@@ -2,11 +2,23 @@ import PySimpleGUI as sg
 
 def calculate_imc(weight, height):
 
-    weight = float(weight)
-    height = float(height)
+    try:
 
-    imc = round(weight / (height**2),2)
-    return imc
+        weight = weight.replace(',', '.')
+        height = height.replace(',', '.')
+
+        weight = float(weight)
+        height = float(height)
+
+        if weight <= 0 or height <= 0:
+            raise ValueError('Altura e peso devem ser maiores que zero')
+
+        imc = round(weight / (height**2),2)
+        return imc
+    
+    except ValueError as e:
+        sg.popup(f'Entrada inválida {e}')
+        return None
 
 def get_imc_category(imc):
 
